@@ -12,7 +12,7 @@ function Home() {
           if (response.status === 200) {
             setCar(data.data[0]);
           } else {
-            setCar(0);
+            setCar(data.message);
           }
         });
       })
