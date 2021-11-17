@@ -1,11 +1,49 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const puppeteer = require('puppeteer')
+// const puppeteer = require('puppeteer')
+let chrome = {};
+let puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    // running on the Vercel platform.
+    chrome = require('chrome-aws-lambda');
+    puppeteer = require('puppeteer-core');
+} else {
+    // running locally.
+    puppeteer = require('puppeteer');
+}
+
+//   const getData = async (url) => {
+//     try {
+//       let browser = await puppeteer.launch({
+//         args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
+//         defaultViewport: chrome.defaultViewport,
+//         executablePath: await chrome.executablePath,
+//         headless: true,
+//         ignoreHTTPSErrors: true,
+//       });
+//     } catch (err) {
+//       console.error(err);
+//       return null;
+//     }
+//   }
 
 const handler = async(req, res) => {
     const { number } = req.query
     const url = 'https://my.service.nsw.gov.au/MyServiceNSW/index#/rms/freeRegoCheck/details'
     try {
-        const browser = await puppeteer.launch({ headless: true })
+        let browser;
+        if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+            browser = await puppeteer.launch({
+                args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
+                defaultViewport: chrome.defaultViewport,
+                executablePath: await chrome.executablePath,
+                headless: true,
+                ignoreHTTPSErrors: true,
+            });
+        } else {
+            browser = await puppeteer.launch({ headless: true })
+        }
+
         const page = await browser.newPage()
 
         await page.goto(url)
