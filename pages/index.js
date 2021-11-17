@@ -22,7 +22,7 @@ function Home() {
         });
       })
       .catch((error) => {
-        setCar(0);
+        setCar("failed :(");
       })
       .finally(() => {
         setLoading(false);
