@@ -11,15 +11,7 @@ function Home() {
   };
   const check = async () => {
     setLoading(true);
-    function handleErrors(response) {
-      if (!response.ok) {
-        setCar('failed :(:(');
-        throw Error(response.statusText);
-      }
-      return response;
-    }
     fetch('/api/hello?number=' + number) // eeb72z
-      .then(handleErrors)
       .then((response) => {
         response.json().then((data) => {
           if (response.status === 200) {
@@ -36,9 +28,6 @@ function Home() {
         setLoading(false);
       });
   };
-  useEffect(() => {
-    // check();
-  }, []);
 
   return (
     <>
