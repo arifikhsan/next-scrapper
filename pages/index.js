@@ -3,10 +3,15 @@ import { useEffect, useState } from 'react';
 function Home() {
   const [car, setCar] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [number, setNumber] = useState('eeb72z');
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    check();
+  };
   const check = async () => {
     setLoading(true);
-    fetch('/api/hello?number=eeb72z')
+    fetch('/api/hello?number=' + number) // eeb72z
       .then((response) => {
         response.json().then((data) => {
           if (response.status === 200) {
@@ -24,12 +29,21 @@ function Home() {
       });
   };
   useEffect(() => {
-    check();
+    // check();
   }, []);
 
   return (
     <>
       <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            name='number'
+            type='text'
+            value='eeb72z'
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder='Insert car number'></input>
+          <button type='submit'>Submit</button>
+        </form>
         <div>{loading && 'loading...'}</div>
         <div>{!loading && car}</div>
       </div>

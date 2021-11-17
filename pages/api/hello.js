@@ -12,21 +12,6 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     puppeteer = require('puppeteer');
 }
 
-//   const getData = async (url) => {
-//     try {
-//       let browser = await puppeteer.launch({
-//         args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
-//         defaultViewport: chrome.defaultViewport,
-//         executablePath: await chrome.executablePath,
-//         headless: true,
-//         ignoreHTTPSErrors: true,
-//       });
-//     } catch (err) {
-//       console.error(err);
-//       return null;
-//     }
-//   }
-
 const handler = async(req, res) => {
     const { number } = req.query
     const url = 'https://my.service.nsw.gov.au/MyServiceNSW/index#/rms/freeRegoCheck/details'
