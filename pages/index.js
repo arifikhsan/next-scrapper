@@ -39,7 +39,7 @@ function Home() {
           <input
             name='number'
             type='text'
-            value='eeb72z'
+            defaultValue='eeb72z'
             onChange={(e) => setNumber(e.target.value)}
             placeholder='Insert car number'></input>
           <button type='submit'>Submit</button>
