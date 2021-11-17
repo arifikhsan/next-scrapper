@@ -19,14 +19,14 @@ const handler = async(req, res) => {
             return Array.from(document.querySelectorAll('h1'), (element) => element.innerText)
         })
         const found = titles[1] == 'Vehicle details'
-            // console.log(found)
+        console.log(found)
         if (!found) {
             res.status(422).json({ message: 'Vehicle not found!' })
         }
         const vehicle = await page.evaluate(() => {
-                return Array.from(document.querySelectorAll('small'), (element) => element.innerText)
-            })
-            // console.log(vehicle)
+            return Array.from(document.querySelectorAll('small'), (element) => element.innerText)
+        })
+        console.log(vehicle)
         if (vehicle && vehicle.length > 0) {
             const data = vehicle.slice(1, 3)
             res.status(200).json({ message: 'Vehicle found!', data })
