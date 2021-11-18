@@ -28,7 +28,7 @@ const handler = async (req, res) => {
         ignoreHTTPSErrors: true,
       });
     } else {
-      browser = await puppeteer.launch({ headless: false });
+      browser = await puppeteer.launch({ headless: true });
     }
 
     const page = await browser.newPage();
