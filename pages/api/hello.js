@@ -16,9 +16,8 @@ const handler = async (req, res) => {
   const { number } = req.query;
   const url =
     'https://my.service.nsw.gov.au/MyServiceNSW/index#/rms/freeRegoCheck/details';
+  let browser;
   try {
-    let browser;
-    let notFoundMessage = '';
     if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
       browser = await puppeteer.launch({
         args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
@@ -35,16 +34,23 @@ const handler = async (req, res) => {
 
     await page.goto(url);
     await page.waitForSelector('#formly_2_input_plateNumber_0');
-    // await page.type('#formly_2_input_plateNumber_0', 'eeb72z') // found
     await page.type('#formly_2_input_plateNumber_0', number);
     await page.click(
       '#formly_2_checkbox-label-with-action_termsAndConditions_1'
     );
     // await page.click('button[type="submit"]');
-    page.on('response', (response) => {
+    page.on('response', async (response) => {
+      // try {
+      //   let a = await response.json()
+      //   let a = await response.json()
+      //   console.log(a)
+      // } catch (e) {
+      //   return console.log(e)
+      // }
       response.text().then(function (textBody) {
         if (textBody) {
-          const text = JSON.parse(textBody);
+          // console.log(textBody);
+          const text = JSON.stringify(textBody);
           const result = text[0].result;
           if (result) {
             const message = result.statusMessage;
@@ -88,9 +94,10 @@ const handler = async (req, res) => {
       const data = vehicle.slice(1, 3);
       res.status(200).json({ message: 'Vehicle found!', data });
     }
-    await browser.close();
   } catch (error) {
     res.status(422).json({ message: 'Something went wrong', error: error });
+  } finally {
+    await browser.close();
   }
 };
 
