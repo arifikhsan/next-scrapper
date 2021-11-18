@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Home() {
   const [car, setCar] = useState('');
@@ -12,18 +13,28 @@ function Home() {
   };
   const check = async () => {
     setLoading(true);
-    fetch('/api/hello?number=' + number) // eeb72z
-      .then((response) => {
-        response.json().then((data) => {
-          if (response.status === 200) {
-            setCar(data.data[0]);
-          } else {
-            setCar(data.message);
-          }
-        });
+    axios
+      .get(`/api/hello?number=${number}`)
+      .then((res) => {
+        if (res.status === 200) {
+          const info = res.data.data;
+          setCar(info);
+        } else {
+          setCar(res.data.message);
+        }
       })
-      .catch((error) => {
-        setCar('failed :(');
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.data);
+          if (err.response.status === 422) {
+            setCar('failed :( ' + err.response.data.message);
+          } else if (err.response.status === 504) {
+            setCar('timeout :( please try again');
+          } else {
+            setCar('failed :( what happen?');
+          }
+        }
+        console.log(err);
       })
       .finally(() => {
         setLoading(false);
@@ -39,12 +50,13 @@ function Home() {
             type='text'
             defaultValue='eeb72z'
             onChange={(e) => setNumber(e.target.value)}
-            placeholder='Insert car number'></input>
-          <button type='submit'>Submit</button>
-        </form>
-        <div>{loading && 'loading...'}</div>
-        <div>{!loading && <div>car: {car}</div>}</div>
-      </div>
+            placeholder='Insert car number'
+          />{' '}
+          <button type='submit'> Submit </button>{' '}
+        </form>{' '}
+        <div> {loading && 'loading...'} </div>{' '}
+        <div> {!loading && <div> car: {car} </div>}</div>
+      </div>{' '}
     </>
   );
 }
