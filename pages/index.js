@@ -14,7 +14,7 @@ function Home() {
   };
   const check = async () => {
     setLoading(true);
-    axiosRetry(axios, { retries: 3 });
+    // axiosRetry(axios, { retries: 3 });
     axios
       .get(`/api/hello?number=${number}`)
       .then((res) => {
@@ -46,6 +46,11 @@ function Home() {
   return (
     <>
       <div>
+        <div>
+          <p>success: cw21gz, eeb72z</p>
+          <p>expired: Lwj88</p>
+          <p>failed: abc123</p>
+        </div>
         <form onSubmit={handleSubmit}>
           <input
             name='number'
