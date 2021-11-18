@@ -49,13 +49,13 @@ const handler = async (req, res) => {
           // console.log(body);
           if (body.method == 'postVehicleListForFreeRegoCheck') {
             finalResult = body.result;
+            browser.close();
             // if (result.statusObject.messageCode == 'SUCCESS') {
             // } else if (result.statusObject.messageCode == 'NO_RECORD_FOUND')
             // a = {message: 'Not found'}
             // console.log('resultttt');
             // console.log(result);
             // a = result;
-            browser.close();
             // console.log(result);
             // res.status(200).json({ message: 'Vehicle found!', data: result });
             //   if (result.statusMessage === 'SUCCESS') {
