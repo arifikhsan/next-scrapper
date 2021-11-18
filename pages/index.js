@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 
 function Home() {
   const [car, setCar] = useState('');
@@ -13,6 +14,7 @@ function Home() {
   };
   const check = async () => {
     setLoading(true);
+    axiosRetry(axios, { retries: 3 });
     axios
       .get(`/api/hello?number=${number}`)
       .then((res) => {
