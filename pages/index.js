@@ -17,7 +17,7 @@ function Home() {
       .get(`/api/hello?number=${number}`)
       .then((res) => {
         if (res.status === 200) {
-          const info = res.data.data;
+          const info = res.data;
           setCar(info);
         } else {
           setCar(res.data.message);
@@ -55,7 +55,19 @@ function Home() {
           <button type='submit'> Submit </button>{' '}
         </form>{' '}
         <div> {loading && 'loading...'} </div>{' '}
-        <div> {!loading && <div> car: {car} </div>}</div>
+        <div>
+          {' '}
+          {!loading && (
+            <div>
+              <div>result:</div>
+              <div>
+                <pre style={{ whiteSpace: 'pre-wrap' }}>
+                  {JSON.stringify(car)}
+                </pre>
+              </div>
+            </div>
+          )}
+        </div>
       </div>{' '}
     </>
   );
