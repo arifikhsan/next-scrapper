@@ -14,7 +14,7 @@ function Home() {
   };
   const check = async () => {
     setLoading(true);
-    // axiosRetry(axios, { retries: 3 });
+    axiosRetry(axios, { retries: 2 });
     axios
       .get(`/api/hello?number=${number}`)
       .then((res) => {
